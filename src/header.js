@@ -4,7 +4,8 @@ const Header = () => {
     const divStyle = {
         fontSize:"25px",
         backgroundColor:"Green",
-        padding:"5px"
+        padding:"5px",
+        
     }
     
     return(
