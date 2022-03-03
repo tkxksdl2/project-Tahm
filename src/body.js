@@ -1,5 +1,9 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Sidebar from "./sidebar";
+
+axios.defaults.withCredentials = true;
+const headers = {withCredentials:true};
 
 const Body = () => {
     const [state, setState] = useState({
@@ -14,9 +18,14 @@ const Body = () => {
     const [tahmStar, setStar] = useState({
         star:0
     });
-    // useEffect(() => {
-
-    // }, []);
+    
+    useEffect(() => {
+        axios.get('http://localhost:8080/test', {headers})
+            .then(res => console.log(res))
+            .catch(err => {
+                console.log(err);
+            });
+    }, []);
 
 
 
@@ -27,7 +36,7 @@ const Body = () => {
         justifycontent:"flexEnd",
         overflow:"hidden"
         
-    }
+    };
     const mainImg = {
         width:"250px",
         height:"250px",
@@ -36,14 +45,14 @@ const Body = () => {
         marginTop:"-125px",
         marginLeft:"-125px",
         
-    }
+    };
 
     const statBoard = {
         margin:"1rem",
         padding:"0.4rem",
         border:"1px solid",
         height:"210px"
-    }
+    };
     return(
         <div style={bodyStyle}>
             <div style ={statBoard}>
