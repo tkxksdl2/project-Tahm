@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const db = require('../config/db');
 
 router.get('/', (req, res) => {
-    res.send({test : "this is a test"});
+    db.query("SELECT * FROM champions", (err, data) => {
+        if(!err) res.send({chmpions : data});
+        else res.send(err);
+    })
 });
 
 
