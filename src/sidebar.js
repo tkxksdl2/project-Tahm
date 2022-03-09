@@ -1,6 +1,10 @@
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import {Motion, spring} from 'react-motion';
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
+const headers = {withCredentials : true};
 
 const ToggleMenu = styled.button`
     height: 50px;
@@ -19,7 +23,6 @@ const ToggleMenu = styled.button`
     
 `;
 const SideBarDiv = styled.div`
-    height: 100% !important;
     display: flex;
     flex-direction : column;
     border-left: 2px solid;
@@ -29,16 +32,38 @@ const SideBarDiv = styled.div`
     right: 0;
 `;
 
+const Portrait = (name) => {
+    return (<div>name : {name} </div>);
+};
+
 const Sidebar = ({ height}) => {
     const [state, setState] = useState({
         width : 0
     });
-
+    const [portraits, setPortraits] = useState({
+        portraits: []
+    });
 
     const animated = () => {
         setState((state) => ({width: state.width ===0 ? 400 : 0}));
         
     };
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/champions/getChampList', headers)
+            .then(res => {
+                console.log(res.data);
+                const champlist = res.data.champlist;
+                let portrait = champlist.map(item => (Portrait(item.name)));
+                console.log(portrait);
+                setPortraits({
+                    portraits: portrait
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    } , []);
 
     return (
         <React.Fragment>
@@ -52,7 +77,10 @@ const Sidebar = ({ height}) => {
                             onClick={ () => animated() }
                         >
                         </ToggleMenu>
-                        <div>content</div>
+                        <div>
+                            content
+                            {portraits.portraits}
+                        </div>
                     </SideBarDiv>
                 }
             </Motion>
