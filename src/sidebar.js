@@ -18,12 +18,11 @@ const ToggleMenu = styled.button`
     position: relative;
     outline: none;
     z-index:1;
-    top:250px;
+    top:-50rem;
     right:20px;
     
 `;
 const SideBarDiv = styled.div`
-    display: flex;
     flex-direction : column;
     border-left: 2px solid;
     border-radius: 0;
@@ -32,8 +31,43 @@ const SideBarDiv = styled.div`
     right: 0;
 `;
 
+const SideBarContent = styled.div`
+    top:0px;
+    height:100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-auto-rows: minMax(100px, auto);
+
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        border-radius: 5px;
+        background: rgba(255,255,255, 0.4);
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(0,80,55, 0.4);
+        border-radius: 6px;
+    }
+
+`
+
 const Portrait = (name) => {
-    return (<div>name : {name} </div>);
+    const imgsrc = "./img/champions/" + name + ".png";
+    const portraitImg = {
+        width:"60px",
+        height:"60px",
+        position:"relative",
+        top:"50%",
+        marginTop:"-30px",
+        
+    }
+
+    return (
+        <div style={{textAlign:"center"}}>
+            <img src={imgsrc} style={portraitImg} />
+        </div>
+    );
 };
 
 const Sidebar = ({ height}) => {
@@ -45,7 +79,7 @@ const Sidebar = ({ height}) => {
     });
 
     const animated = () => {
-        setState((state) => ({width: state.width ===0 ? 400 : 0}));
+        setState((state) => ({width: state.width ===0 ? 500 : 0}));
         
     };
 
@@ -71,16 +105,16 @@ const Sidebar = ({ height}) => {
                 { ({width}) =>
                     <SideBarDiv style={{
                         width: width,
-                        minHeight: height,
+                        height: height,
                     }}>
+                        
+                        <SideBarContent>    
+                            {portraits.portraits}
+                        </SideBarContent>
                         <ToggleMenu 
                             onClick={ () => animated() }
                         >
                         </ToggleMenu>
-                        <div>
-                            content
-                            {portraits.portraits}
-                        </div>
                     </SideBarDiv>
                 }
             </Motion>

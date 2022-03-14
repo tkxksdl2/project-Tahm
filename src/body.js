@@ -30,7 +30,7 @@ const Body = () => {
 
 
     const bodyStyle = {
-        height:"100vh",
+        height:"92vh",
         display:"flex",
         flexDirection:"row",
         justifycontent:"flexEnd",
@@ -87,7 +87,7 @@ const Body = () => {
                 <img src="./img/main.png" style={mainImg} />
             </div>
             <div style={{order:2, zIndex:100}}>
-                <Sidebar height={"100vh"}></Sidebar>
+                <Sidebar height={bodyStyle.height}></Sidebar>
             </div>
         </div>
 
