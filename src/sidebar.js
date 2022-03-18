@@ -3,6 +3,8 @@ import styled from "styled-components";
 import {Motion, spring} from 'react-motion';
 import axios from "axios";
 
+import Portrait from "./portrait";
+
 axios.defaults.withCredentials = true;
 const headers = {withCredentials : true};
 
@@ -52,23 +54,9 @@ const SideBarContent = styled.div`
 
 `
 
-const Portrait = (name) => {
-    const imgsrc = "./img/champions/" + name + ".png";
-    const portraitImg = {
-        width:"60px",
-        height:"60px",
-        position:"relative",
-        top:"50%",
-        marginTop:"-30px",
-        
-    }
 
-    return (
-        <div style={{textAlign:"center"}}>
-            <img src={imgsrc} style={portraitImg} />
-        </div>
-    );
-};
+
+
 
 const Sidebar = ({ height}) => {
     const [state, setState] = useState({
@@ -88,11 +76,14 @@ const Sidebar = ({ height}) => {
             .then(res => {
                 console.log(res.data);
                 const champlist = res.data.champlist;
-                let portrait = champlist.map(item => (Portrait(item.name)));
-                console.log(portrait);
                 setPortraits({
-                    portraits: portrait
+                    portraits: champlist
                 });
+                // let portrait = champlist.map(item => (Portrait({item})));
+                // console.log(portrait);
+                // setPortraits({
+                //     portraits: portrait
+                // });
             })
             .catch(err => {
                 console.log(err);
@@ -109,7 +100,10 @@ const Sidebar = ({ height}) => {
                     }}>
                         
                         <SideBarContent>    
-                            {portraits.portraits}
+                            {/* {portraits.portraits} */}
+                            {portraits.portraits.map(item =>(
+                                <Portrait item={item} key={item.name} />
+                            ))}
                         </SideBarContent>
                         <ToggleMenu 
                             onClick={ () => animated() }
