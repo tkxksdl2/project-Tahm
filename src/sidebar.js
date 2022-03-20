@@ -59,7 +59,7 @@ const SideBarContent = styled.div`
 
 
 const Sidebar = ({ height}) => {
-    const [state, setState] = useState({
+    const [statewidth, setState] = useState({
         width : 0
     });
     const [portraits, setPortraits] = useState({
@@ -92,7 +92,7 @@ const Sidebar = ({ height}) => {
 
     return (
         <React.Fragment>
-            <Motion style={{ width: spring(state.width)}}>
+            <Motion style={{ width: spring(statewidth.width)}}>
                 { ({width}) =>
                     <SideBarDiv style={{
                         width: width,
@@ -102,7 +102,7 @@ const Sidebar = ({ height}) => {
                         <SideBarContent>    
                             {/* {portraits.portraits} */}
                             {portraits.portraits.map(item =>(
-                                <Portrait item={item} key={item.name} />
+                                <Portrait items={item} key={item.name} />
                             ))}
                         </SideBarContent>
                         <ToggleMenu 

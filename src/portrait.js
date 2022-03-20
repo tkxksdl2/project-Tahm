@@ -1,16 +1,19 @@
 import React, {useState, useEffect } from "react";
+import {useDrag} from "react-dnd";
 
 // item = {name, abillity, star1,..2,..3, cost}
-const Portrait = ({item}) => {
+const Portrait = ({items}) => {
     const [state, setState] = useState({
+        name:items.name,
         star:1,
-        cost:item.cost,
+        cost:items.cost,
     });
     const [starSrc, setSrc] = useState({
         src:[]
-    })
-    const imgsrc = "./img/champions/" + item.name + ".png";
+    });
 
+    const imgsrc = "./img/champions/" + items.name + ".png";
+    
     useEffect(() => {
         if (state.star === 1) {
             setSrc({
@@ -25,15 +28,34 @@ const Portrait = ({item}) => {
                 src:["./img/ystar.png", "./img/ystar.png", "./img/ystar.png"]
             });
         };
-    }, [state]);
+    }, [state.star]);
 
     const changeStar = (i) =>{
         setState({
             ...state,
-            star:i
+            star:i,
         });
     };
 
+    // dependency [state]를 지정하지 않으면
+    // 이 함수 내부의 값은 갱신되지 않는다.
+    // 따라서 state를 바꾸어도 최초값만 나오므로 의존성을 지정해주자.
+    const [{isDragging}, drag] = useDrag(() =>({
+        type:"glutton",
+        item: ()=> {
+            return (state);
+        },
+        end: (item, monitor) =>{
+            const dropResult = monitor.getDropResult();
+            if (item && dropResult) {
+                alert(`you droped ${item.name}, star:${item.star}`);
+            }
+        },
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging(),
+            handlerId: monitor.getHandlerId()
+        }),
+    }), [state]);
 
     const portraitImg = {
         width:"60px",
@@ -54,9 +76,10 @@ const Portrait = ({item}) => {
         height:"1rem"
     };
 
+    const opacity = isDragging ? 0.4 : 1
 
     return (
-        <div draggable style={{textAlign:"center"}}>
+        <div ref={drag} style={{textAlign:"center", opacity}}>
             <img src={imgsrc} style={portraitImg} />
             <div style={starDiv}>
                 <img onClick={() => {changeStar(1)}} src={starSrc.src[0]} style={{height:"100%", marginTop:"-0.5rem"}}/>

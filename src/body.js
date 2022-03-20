@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Sidebar from "./sidebar";
 
+import {useDrop} from 'react-dnd';
+
 axios.defaults.withCredentials = true;
 const headers = {withCredentials:true};
 
@@ -53,6 +55,17 @@ const Body = () => {
         border:"1px solid",
         height:"210px"
     };
+
+    const [{ canDrop, isOver }, drop] = useDrop(() => ({
+        accept:"glutton",
+        drop: () => ({ name: 'tahmkench'}),
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+            canDrop: monitor.canDrop(),
+        }),
+    }));    
+
+
     return(
         <div style={bodyStyle}>
             <div style ={statBoard}>
@@ -82,9 +95,8 @@ const Body = () => {
                 </div>
 
             </div>
-
             <div style={{textAlign:"center", order:1, flexGrow:1}}>
-                <img src="./img/main.png" style={mainImg} />
+                <img ref={drop} src="./img/main.png" style={mainImg} />
             </div>
             <div style={{order:2, zIndex:100}}>
                 <Sidebar height={bodyStyle.height}></Sidebar>
