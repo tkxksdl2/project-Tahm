@@ -4,9 +4,9 @@ import {useDrag} from "react-dnd";
 // item = {name, abillity, star1,..2,..3, cost}
 const Portrait = ({items}) => {
     const [state, setState] = useState({
-        name:items.name,
+        ...items,
         star:1,
-        cost:items.cost,
+        
     });
     const [starSrc, setSrc] = useState({
         src:[]
@@ -43,14 +43,14 @@ const Portrait = ({items}) => {
     const [{isDragging}, drag] = useDrag(() =>({
         type:"glutton",
         item: ()=> {
-            return (state);
+            let addingVal = [state.star1, state.star2, state.star3][state.star-1]
+            return ({
+                ...state,
+                addingVal: addingVal,
+                cost: state.cost * (3**(state.star-1))
+            });
         },
-        end: (item, monitor) =>{
-            const dropResult = monitor.getDropResult();
-            if (item && dropResult) {
-                alert(`you droped ${item.name}, star:${item.star}`);
-            }
-        },
+        
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
             handlerId: monitor.getHandlerId()
