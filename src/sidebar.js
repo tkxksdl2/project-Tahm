@@ -20,7 +20,7 @@ const ToggleMenu = styled.button`
     position: relative;
     outline: none;
     z-index:1;
-    top:-50rem;
+    top:-70%;
     right:20px;
     
 `;

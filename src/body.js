@@ -9,7 +9,7 @@ axios.defaults.withCredentials = true;
 const headers = {withCredentials:true};
 
 const MainDiv = styled.div`
-    height: 92vh;
+    height: 93vh;
     display: flex;
     flex-direction: row;
     justify-content: flexEnd;
@@ -19,24 +19,61 @@ const MainImg = styled.img`
     width:250px;
     height:250px;
     position:relative;
-    top:50%;
-    margin-top:-125px;
-    margin-left:-125px;
+    margin-top:30px;
+
 `
 const StatBoard = styled.div`
+    display: inline-block;
     margin: 1rem;
     padding: 0.4rem;
     border: 1px solid;
     height: 210px;
+    position: absolute;
+    text-align: left;
+    left:0px;
 `
 const StarDiv = styled.div`
     width: 250px;
     height: 80px; 
     position: relative;
     display:inline-block;
-    top: 50% ;
-    margin-left: -125px;
 `
+
+const MainContent = styled.div`
+    position: relative;
+    top: 50%;
+    height: 500px;
+    width: 400px;
+    display: inline-block;
+    margin-top: -250px;
+`
+const ResetButton = styled.button`
+    display: block;
+    position: absolute;
+    float: left;
+    width: 150px;
+    padding: 0;
+    margin: 1rem 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 50px;
+    color: #FFF;
+    border-radius: 5px;
+    transition: all 0.2s;
+    top: 270px;
+    background: #00AE68;
+    
+    :hover {
+        background: #21825B;
+    }
+`
+const defaultAdd = {
+    hp:0,
+    ap:0,
+    def:0,
+    mr:0,
+    cost:0
+}
 
 const Body = () => {
     const [state, setState] = useState({
@@ -48,16 +85,15 @@ const Body = () => {
         mr:60,
         skil: [900, 1350, 30000]
     });
+
     const [add, setAdd] = useState({
-        hp:0,
-        ap:0,
-        def:0,
-        mr:0,
-        cost:0
+        ...defaultAdd
     });
+
     const [tahmStar, setStar] = useState({
         star:1
     });
+
     const [starSrc, setSrc] = useState({
         src:["./img/ystar.png", "./img/star.png", "./img/star.png"]
     });
@@ -86,6 +122,7 @@ const Body = () => {
         };
     }, [tahmStar]);
 
+    // 탐켄치 레벨 변경
     const changeStar = (i) =>{
         setStar({
             star:i,
@@ -136,47 +173,56 @@ const Body = () => {
         }),
     }), [tahmStar]);    
 
+    const resetAdd = () => {
+        setAdd({
+            ...defaultAdd
+        });
+        console.log('reset');
+    };
 
     return(
         <MainDiv>
-            <StatBoard>
-                <div>
-                    Here's Tahm Kench's stats!
-                </div>
-                <div>
-                    HP : {state.hp[tahmStar.star-1] + add.hp}
-                </div>
-                <div>
-                    MP : {state.mp}
-                </div>
-                <div>
-                    DEF : {state.def + add.def}
-                </div>
-                <div>
-                    MR : {state.mr + add.mr}
-                </div>
-                <div>
-                    AD : {state.ad[tahmStar.star-1]}
-                </div>
-                <div>
-                    AP : {state.ap + add.ap - 100}
-                </div>
-                <div>
-                    Skil Damage : {state.skil[tahmStar.star-1] * (state.ap+add.ap)/100}
-                </div>
-            </StatBoard>
-
             <div style={{textAlign:"center", order:1, flexGrow:1}}>
-                <MainImg ref={drop} src="./img/main.png"/>
-                <div>YOU invested {add.cost} cost</div>
-                <StarDiv>
-                    <img onClick={() => {changeStar(1)}} src={starSrc.src[0]} style={{height:"100%", marginTop:"-0.5rem"}}/>
-                    <img onClick={() => {changeStar(2)}} src={starSrc.src[1]} style={{height:"100%", marginTop:"-0.5rem"}}/>
-                    <img onClick={() => {changeStar(3)}} src={starSrc.src[2]} style={{height:"100%", marginTop:"-0.5rem"}}/>
-                </StarDiv>
+                <StatBoard>
+                    <div>
+                        Here's Tahm Kench's stats!
+                    </div>
+                    <div>
+                        HP : {state.hp[tahmStar.star-1] + add.hp}
+                    </div>
+                    <div>
+                        MP : {state.mp}
+                    </div>
+                    <div>
+                        DEF : {state.def + add.def}
+                    </div>
+                    <div>
+                        MR : {state.mr + add.mr}
+                    </div>
+                    <div>
+                        AD : {state.ad[tahmStar.star-1]}
+                    </div>
+                    <div>
+                        AP : {state.ap + add.ap - 100}
+                    </div>
+                    <div>
+                        Skil Damage : {state.skil[tahmStar.star-1] * (state.ap+add.ap)/100}
+                    </div>
+                </StatBoard>
+                <ResetButton onClick={() => {resetAdd()}}>Reset</ResetButton>
+                <MainContent>
+                    <div> YOU invested total {add.cost} COST!</div>
+                    <MainImg ref={drop} src="./img/main.png"/>
+                    <StarDiv>
+                        <img onClick={() => {changeStar(1)}} src={starSrc.src[0]} style={{height:"100%", marginTop:"-0.5rem"}}/>
+                        <img onClick={() => {changeStar(2)}} src={starSrc.src[1]} style={{height:"100%", marginTop:"-0.5rem"}}/>
+                        <img onClick={() => {changeStar(3)}} src={starSrc.src[2]} style={{height:"100%", marginTop:"-0.5rem"}}/>
+                    </StarDiv>
+                </MainContent>
+
             </div>
             <div style={{order:2, zIndex:100}}>
-                <Sidebar height="92vh"></Sidebar>
+                <Sidebar height="93vh"></Sidebar>
             </div>
         </MainDiv>
 

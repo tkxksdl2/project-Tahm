@@ -4,7 +4,7 @@ const db = require("../config/db");
 
 
 router.get('/getChampList', (req, res) => {
-    db.query("SELECT * FROM champions", (err, data) => {
+    db.query("SELECT * FROM champions ORDER BY cost", (err, data) => {
         if (!err) {
             res.json({champlist : data});
        } else {
