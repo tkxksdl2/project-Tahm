@@ -1,11 +1,14 @@
 import React from "react";
+import theme from './styles/colorTheme';
+
 
 const Header = () => {
     const divStyle = {
         fontSize:"25px",
-        backgroundColor:"Green",
+        backgroundColor:theme.inner,
         padding:"5px",
-        height:"40px"
+        height:"40px",
+        color: theme.line
         
     }
     

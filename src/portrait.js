@@ -1,4 +1,5 @@
 import React, {useState, useEffect } from "react";
+import { getOverlayDirection } from "react-bootstrap/esm/helpers";
 import {useDrag} from "react-dnd";
 
 // item = {name, abillity, star1,..2,..3, cost}
@@ -57,34 +58,42 @@ const Portrait = ({items}) => {
         }),
     }), [state]);
 
-    const portraitImg = {
+    const inner = {
         width:"60px",
         height:"60px",
         position:"relative",
         top:"50%",
-        marginTop:"-20px",
-        
+        left:"50%",
+        marginTop:"-30px",
+        marginLeft:"-30px",
+        backgroundColor: "gray",
+    };
+
+    const portraitImg = {
+        width:"60px",
+        height:"60px",
     };
     const starDiv ={
         backgroundColor:"rgba(0,0,0,0.2)",
         zIndex:2,
         position:"relative",
-        top:"2.1rem",
-        left:"1.15rem",
         width:"60px",
         textAlign:"center",
+        top:'-1rem',
         height:"1rem"
     };
 
     const opacity = isDragging ? 0.4 : 1
 
     return (
-        <div ref={drag} style={{textAlign:"center", opacity}}>
-            <img src={imgsrc} style={portraitImg} />
-            <div style={starDiv}>
-                <img onClick={() => {changeStar(1)}} src={starSrc.src[0]} style={{height:"100%", marginTop:"-0.5rem"}}/>
-                <img onClick={() => {changeStar(2)}} src={starSrc.src[1]} style={{height:"100%", marginTop:"-0.5rem"}}/>
-                <img onClick={() => {changeStar(3)}} src={starSrc.src[2]} style={{height:"100%", marginTop:"-0.5rem"}}/>
+        <div style={{textAlign:"center", opacity}}>
+            <div ref={drag} style={inner}>
+                <img src={imgsrc} style={portraitImg} />
+                <div style={starDiv}>
+                    <img onClick={() => {changeStar(1)}} src={starSrc.src[0]} style={{height:"100%", marginTop:"-0.5rem"}}/>
+                    <img onClick={() => {changeStar(2)}} src={starSrc.src[1]} style={{height:"100%", marginTop:"-0.5rem"}}/>
+                    <img onClick={() => {changeStar(3)}} src={starSrc.src[2]} style={{height:"100%", marginTop:"-0.5rem"}}/>
+                </div>
             </div>
         </div>
     );

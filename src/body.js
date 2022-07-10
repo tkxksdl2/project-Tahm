@@ -4,6 +4,7 @@ import Sidebar from "./sidebar";
 import styled from "styled-components";
 
 import {useDrop} from 'react-dnd';
+import theme from './styles/colorTheme';
 
 axios.defaults.withCredentials = true;
 const headers = {withCredentials:true};
@@ -14,6 +15,8 @@ const MainDiv = styled.div`
     flex-direction: row;
     justify-content: flexEnd;
     overflow: hidden;
+    background-color: ${theme.outer};
+    border: 1px solid ${theme.line};
     `;
 const MainImg = styled.img`
     width:250px;
@@ -22,15 +25,18 @@ const MainImg = styled.img`
     margin-top:30px;
 
 `
+
 const StatBoard = styled.div`
     display: inline-block;
+    background-color: ${theme.inner};
     margin: 1rem;
     padding: 0.4rem;
-    border: 1px solid;
+    border: 2px solid ${theme.line};
     height: 210px;
     position: absolute;
     text-align: left;
     left:0px;
+    color: white;
 `
 const StarDiv = styled.div`
     width: 250px;
@@ -46,25 +52,29 @@ const MainContent = styled.div`
     width: 400px;
     display: inline-block;
     margin-top: -250px;
+    color: white;
 `
 const ResetButton = styled.button`
     display: block;
     position: absolute;
     float: left;
-    width: 150px;
+    width: 180px;
+    height: 30px;
     padding: 0;
     margin: 1rem 2.5rem;
     font-weight: 600;
     text-align: center;
-    line-height: 50px;
+    line-height: 20px;
     color: #FFF;
-    border-radius: 5px;
+    border-radius: 5px ;
     transition: all 0.2s;
-    top: 270px;
-    background: #00AE68;
+    top: 260px;
+    left: -10px;
+    background: ${theme.button};
+    border: 2px solid white;
     
     :hover {
-        background: #21825B;
+        background: ${theme.inner};
     }
 `
 const defaultAdd = {
@@ -97,14 +107,6 @@ const Body = () => {
     const [starSrc, setSrc] = useState({
         src:["./img/ystar.png", "./img/star.png", "./img/star.png"]
     });
-
-    useEffect(() => {
-        axios.get('http://localhost:8080/test', {headers})
-            .then(res => console.log(res))
-            .catch(err => {
-                console.log(err);
-            });
-    }, []);
 
     useEffect(() => {
         if (tahmStar.star === 1) {
@@ -212,7 +214,7 @@ const Body = () => {
                 <ResetButton onClick={() => {resetAdd()}}>Reset</ResetButton>
                 <MainContent>
                     <div> YOU invested total {add.cost} COST!</div>
-                    <MainImg ref={drop} src="./img/main.png"/>
+                    <MainImg ref={drop} src="./img/main1.png"/>
                     <StarDiv>
                         <img onClick={() => {changeStar(1)}} src={starSrc.src[0]} style={{height:"100%", marginTop:"-0.5rem"}}/>
                         <img onClick={() => {changeStar(2)}} src={starSrc.src[1]} style={{height:"100%", marginTop:"-0.5rem"}}/>

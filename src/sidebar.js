@@ -4,6 +4,7 @@ import {Motion, spring} from 'react-motion';
 import axios from "axios";
 
 import Portrait from "./portrait";
+import theme from './styles/colorTheme';
 
 axios.defaults.withCredentials = true;
 const headers = {withCredentials : true};
@@ -11,7 +12,7 @@ const headers = {withCredentials : true};
 const ToggleMenu = styled.button`
     height: 50px;
     width: 20px;
-    background-Color: rgba(64, 194, 133, 0.693);
+    background-Color:${theme.button};
     border-right: 0;
     border-top-left-radius: 10rem;
     border-bottom-left-radius: 9rem;
@@ -29,7 +30,7 @@ const SideBarDiv = styled.div`
     border-left: 2px solid;
     border-radius: 0;
     border-color: gray;
-    background-color: rgb(255,255,255);
+    background-color: ${theme.head};
     right: 0;
 `;
 
@@ -39,6 +40,7 @@ const SideBarContent = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-auto-rows: minMax(100px, auto);
+    padding: 1rem;
 
     overflow-y: scroll;
     &::-webkit-scrollbar {
@@ -48,7 +50,7 @@ const SideBarContent = styled.div`
         background: rgba(255,255,255, 0.4);
     }
     &::-webkit-scrollbar-thumb {
-        background-color: rgba(0,80,55, 0.4);
+        background-color: rgba(50,130,105, 0.4);
         border-radius: 6px;
     }
 
@@ -74,7 +76,6 @@ const Sidebar = ({ height}) => {
     useEffect(() => {
         axios.get('http://localhost:8080/champions/getChampList', headers)
             .then(res => {
-                console.log(res.data);
                 const champlist = res.data.champlist;
                 setPortraits({
                     portraits: champlist
