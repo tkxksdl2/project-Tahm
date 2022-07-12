@@ -4,7 +4,7 @@ import Sidebar from "./sidebar";
 import styled from "styled-components";
 
 import {useDrop} from 'react-dnd';
-import theme from './styles/colorTheme';
+import {theme} from './styles/colorTheme';
 
 axios.defaults.withCredentials = true;
 const headers = {withCredentials:true};
@@ -179,7 +179,6 @@ const Body = () => {
         setAdd({
             ...defaultAdd
         });
-        console.log('reset');
     };
 
     return(

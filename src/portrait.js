@@ -1,14 +1,14 @@
 import React, {useState, useEffect } from "react";
-import { getOverlayDirection } from "react-bootstrap/esm/helpers";
 import {useDrag} from "react-dnd";
+import {costColor} from "./styles/colorTheme";
 
 // item = {name, abillity, star1,..2,..3, cost}
 const Portrait = ({items}) => {
     const [state, setState] = useState({
         ...items,
         star:1,
-        
     });
+    
     const [starSrc, setSrc] = useState({
         src:[]
     });
@@ -66,12 +66,14 @@ const Portrait = ({items}) => {
         left:"50%",
         marginTop:"-30px",
         marginLeft:"-30px",
-        backgroundColor: "gray",
     };
 
     const portraitImg = {
         width:"60px",
         height:"60px",
+        borderRadius: "5px",
+
+        border: `3px solid ${costColor[items.cost]}`,
     };
     const starDiv ={
         backgroundColor:"rgba(0,0,0,0.2)",
@@ -80,7 +82,9 @@ const Portrait = ({items}) => {
         width:"60px",
         textAlign:"center",
         top:'-1rem',
-        height:"1rem"
+        height:"1rem",
+        borderRadius:'10px',
+
     };
 
     const opacity = isDragging ? 0.4 : 1

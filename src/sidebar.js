@@ -4,7 +4,7 @@ import {Motion, spring} from 'react-motion';
 import axios from "axios";
 
 import Portrait from "./portrait";
-import theme from './styles/colorTheme';
+import {theme} from './styles/colorTheme';
 
 axios.defaults.withCredentials = true;
 const headers = {withCredentials : true};
@@ -37,9 +37,6 @@ const SideBarDiv = styled.div`
 const SideBarContent = styled.div`
     top:0px;
     height:100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-auto-rows: minMax(100px, auto);
     padding: 1rem;
 
     overflow-y: scroll;
@@ -55,17 +52,32 @@ const SideBarContent = styled.div`
     }
 
 `
+const ContentBlcok = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-auto-rows: minMax(80px, auto);
 
-
-
-
+`
+const BlockTitle = styled.div`
+    background-color: ${theme.outer};
+    color:${theme.line};
+    font-weight: bold;
+    margin-left: 2rem;
+    width: 170px;
+    padding: 0 0 0 10px;
+    border-radius: 2px;
+`
 
 const Sidebar = ({ height}) => {
     const [statewidth, setState] = useState({
         width : 0
     });
     const [portraits, setPortraits] = useState({
-        portraits: []
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: []
     });
 
     const animated = () => {
@@ -74,22 +86,31 @@ const Sidebar = ({ height}) => {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:8080/champions/getChampList', headers)
-            .then(res => {
-                const champlist = res.data.champlist;
-                setPortraits({
-                    portraits: champlist
+        for (let i = 1; i < 6; i++){
+            axios.get(`http://localhost:8080/champions/getChampList?cost=${i}`, headers)
+                .then(res => {
+                    const champlist = res.data.champlist;
+                    portraits[i] = champlist;
+                })
+                .catch(err => {
+                    console.log(err);
                 });
-                // let portrait = champlist.map(item => (Portrait({item})));
-                // console.log(portrait);
-                // setPortraits({
-                //     portraits: portrait
-                // });
-            })
-            .catch(err => {
-                console.log(err);
-            });
+            }
     } , []);
+
+
+    const groupCost = (cost) => {
+        return (
+            <React.Fragment>
+                <BlockTitle> Champions cost {cost}</BlockTitle>
+                    <ContentBlcok>
+                    {portraits[cost].map(item => (
+                        <Portrait items={item} key={item.name} />
+                    ))}
+                </ContentBlcok>
+            </React.Fragment>
+        );
+    };
 
     return (
         <React.Fragment>
@@ -102,9 +123,10 @@ const Sidebar = ({ height}) => {
                         
                         <SideBarContent>    
                             {/* {portraits.portraits} */}
-                            {portraits.portraits.map(item =>(
-                                <Portrait items={item} key={item.name} />
-                            ))}
+                            {Object.keys(portraits).map(cost => (
+                                groupCost(cost)
+                            ))
+                            }
                         </SideBarContent>
                         <ToggleMenu 
                             onClick={ () => animated() }

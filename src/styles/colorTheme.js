@@ -6,4 +6,12 @@ const theme = {
     head: '#B2C5B2'
 };
 
-export default theme;
+const costColor = {
+    1: 'gray',
+    2: '#1CC85B',
+    3: '#004DCF',
+    4: 'purple',
+    5: '#DBB60B',
+}
+
+export {theme, costColor};

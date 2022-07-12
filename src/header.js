@@ -1,5 +1,5 @@
 import React from "react";
-import theme from './styles/colorTheme';
+import {theme} from './styles/colorTheme';
 
 
 const Header = () => {
