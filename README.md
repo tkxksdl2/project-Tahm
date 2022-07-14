@@ -12,7 +12,9 @@ node.js express
 
 react react-dnd react-motion
 
-mysql (현재 로컬에만 존재)
+mysql - Amazon RDS 연결
+
+RDS는 비용문제로 추후 비활성화 될 예정입니다.
 
 ### 실행 코드
 
